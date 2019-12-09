@@ -1,0 +1,43 @@
+
+#Function 
+    def pca_without_gabor(self,processed_image1):
+        data =[]
+        for i in range(len(processed_image1)):
+          data.append(processed_image1[i].flatten())
+        pca=PCA()
+        print (data)
+        pca.fit(data)
+        c= data
+        # g = np.array(c)
+        # print("Raw data size")
+        # print(g.shape)
+        data = pca.transform(data)
+        t = np.array(data)
+        t.shape
+        print("changed data dimension")
+        print(t.shape)
+        return t
+        
+ #Call like this
+        processed_image1 = obj.read_image()
+        obj.pca_without_gabor(processed_image1)
+        
+#Rank function
+    def rank_calculation(predicted,actual,rank):
+        total_img = len(predicted)
+        true_prediction = 0;
+        for i in range(total_img):
+          # row_mat = predicted[i]
+          d1 = np.zeros((2,len(predicted[0])))
+          for j in range(len(d1[0])):
+            d1[0][j]=j  
+          d1[1]= predicted[i]
+          ##thinking its sorted
+          d = d1[:,d1[1].argsort()]
+          print(d)
+          for k in range(len(d[0])-1,len(d[0]) -rank -1, -1):
+            if(d[0][k] == actual[i]):
+              true_prediction = true_prediction+1
+        percentage = (true_prediction/total_img) *100
+        return percentage
+ 
